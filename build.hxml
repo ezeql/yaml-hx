@@ -1,0 +1,9 @@
+# global
+-main Test
+
+# swf test
+--flash-strict
+-swf-version 9
+-swf-header 750:600:30:FFFFFF
+--no-inline
+-swf deploy/debug.swf

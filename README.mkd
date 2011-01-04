@@ -1,0 +1,8 @@
+# yaml-hx
+
+Simple yaml parser, doesn't include all the bells and whistles
+
+
+
+
+* allows empty keys
