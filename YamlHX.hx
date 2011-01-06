@@ -7,6 +7,7 @@ class YamlHX extends Fast
 	{
 		var x:Xml = Xml.parse('<?xml-stylesheet type="text/xsl" href="xml2yaml.xsl"?>\n<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
 		
+		var line = 0;
 		var lines = input.split(LINE_SEPARATOR);
 		var indents = 0; // running
 		var spaces = 0; // temp
@@ -17,60 +18,88 @@ class YamlHX extends Fast
 		var value = "";
 		var new_element: Xml;
 		var tabbing = "";
+		var block = false;
 		
 		for(l in lines){
-			if(StringTools.trim(l) != ""){ // empty line, skip unless part of a block
-				
+			line++;
 			
+			if(StringTools.trim(l) != "" || block){ // empty line, skip unless part of a block
+				
 				colon = l.indexOf(":");
-				key = l.substr(0,colon);
-
+				
 				// convert left tabs to spaces
-				l = StringTools.replace(l.substr(0,colon),"\t"," ") + l.substr(colon) + LINE_SEPARATOR;
-
-				// check for value
-				value = StringTools.trim(l.substr(colon+1));
-				if(value != ""){
-					new_element = Xml.createElement(StringTools.trim(key));
-					new_element.nodeValue = value;
-				}else{
-					new_element = Xml.createElement(StringTools.trim(key));
-				}
-
+				l = tabsToSpaces(l,colon);
+				
 				// count the spaces
 				spaces = countSpaces(l);
-/*				trace(spaces);*/
-			
-				// set tabbing if it's unset
-				if(tabbing == "" && spaces > 0){
-					tabbing = StringTools.rpad(tabbing, " ", spaces);
-				}
-			
-				// set indents
-				indents = 0;
-				while(spaces > 0 && StringTools.startsWith(key,tabbing)){
-					key = key.substr(spaces);
-					indents++;
-				}
-/*				trace(indents);*/			
-			
-				if(spaces > 0){
-					levels[indents-1].addChild(new_element);
+				
+				// if block
+				if(colon < 0){
+					if(block){
+						value = l;
+						// ltrim the leading tabs
+						while(indents > 0 && StringTools.startsWith(value,tabbing)){
+							value = value.substr(spaces);
+						}
+
+						levels[indents].nodeValue += value; // append new line
+					}else{
+						throw "YAML Syntax error at line: "+line;
+					}
 				}else{
-					root.addChild(new_element);
-				}
+				
+					key = l.substr(0,colon);
+
+					// set tabbing if it's unset
+					if(tabbing == "" && spaces > 0){
+						tabbing = StringTools.rpad(tabbing, " ", spaces);
+					}
 			
-				if(levels[indents] == null){
-					levels.push(new_element);
-				}else{
+					// set indents
+					indents = 0;
+					while(spaces > 0 && StringTools.startsWith(key,tabbing) && !block){
+						key = key.substr(tabbing.length);
+						indents++;
+					}
+/*          trace(indents);     */
+										
+					// check for value
+					value = StringTools.trim(l.substr(colon+1));
+					new_element = Xml.createElement(StringTools.trim(key));
+					block = false;
+					if(value != ""){
+						if(StringTools.trim(value) == "|"){
+							block = true;
+						}else{
+							new_element.nodeValue = value;
+						}
+					}
+					
+					if(spaces > 0){
+						levels[indents-1].addChild(new_element);
+					}else{
+						root.addChild(new_element);
+					}
+			
 					levels[indents] = new_element;
-				}
-			
+					
+				}			
 /*				trace(levels);*/
 			}
+			
 		}
 		
 		super(x);
+		
+	}
+	
+	private static inline function tabsToSpaces( s:String, colon:Int ):String
+	{
+		if(colon < 0){
+			return StringTools.replace(s.substr(0),"\t"," ") + LINE_SEPARATOR;
+		}else{
+			return StringTools.replace(s.substr(0,colon),"\t"," ") + s.substr(colon) + LINE_SEPARATOR;
+		}
 		
 	}
 	

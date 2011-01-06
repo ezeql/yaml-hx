@@ -16,7 +16,10 @@ date: '2001-01-03'
 bill-to: &id001
    given: 'Chris'
    family: Dumars
-";
+   address:
+ 	    lines: |
+	       458 Walkman Dr.
+	       Suite #292";
 
 		var yamlhx = YamlHX.read(input);
 		
