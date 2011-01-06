@@ -1,9 +1,9 @@
 # yaml-hx
 
-Simple yaml parser, doesn't include all the bells and whistles
-
+Simple yaml parser, probably will include all the bells and whistles
 
 
 
 * allows empty keys -> empty xml node
 * allows messy (i think this way executes faster atm)
+* haXe xml doesn't like attributes with colon, so for yaml:anchor i use unicode "yaml&#003a;anchor"

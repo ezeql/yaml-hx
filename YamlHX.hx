@@ -68,8 +68,10 @@ class YamlHX extends Fast
 					new_element = Xml.createElement(StringTools.trim(key));
 					block = false;
 					if(value != ""){
-						if(StringTools.trim(value) == "|"){
+						if(StringTools.trim(value) == "|"){ // multiline block
 							block = true;
+						}else if(StringTools.startsWith(StringTools.ltrim(value),"&")){ // yaml anchor
+						  new_element.set("yaml&#003A;anchor", value.substr(value.indexOf("&")+1));
 						}else{
 							new_element.nodeValue = value;
 						}
