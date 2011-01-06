@@ -129,6 +129,19 @@ class YamlHX extends Fast
       }else if(f.has.resolve("yaml&#003A;alias") && anchors.exists(f.att.resolve("yaml&#003A;alias"))){ // alias?
         var clonee = anchors.get(f.att.resolve("yaml&#003A;alias"));
         f = new Fast(clonee).node.resolve(v);
+	    }else if(v.indexOf("[") > 0 && v.indexOf("]") > 0){ // array accessor for lists
+	      var index = Std.parseInt(v.substr(v.indexOf("[")+1,v.indexOf("]")));
+	      var list = f.node.resolve(v.substr(0,v.indexOf("["))).nodes.resolve("_");
+        if(list.length > index){
+          var i = 0;
+          for(item in list){
+            if(i == index){
+              f = item;
+            }else{ i++; }
+          }
+        }else{
+          throw "YamlHX.get() error, node list '"+v+"' index '"+index+"' out of bounds in '"+f.name+"'";
+        }
 	    }else{
 	      throw "YamlHX.get() error, '"+v+"' not found in '"+f.name+"'";
 	    }

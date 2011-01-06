@@ -55,6 +55,7 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
     tf.text += "\n\n yamlhx.node.resolve(\"bill-to\").node.given.name : yamlhx.node.resolve(\"bill-to\").node.given.innerData  \n"+ yamlhx.node.resolve("bill-to").node.given.name + " : " + yamlhx.node.resolve("bill-to").node.given.innerData;
     tf.text += "\n\n total : yamlhx.get(\"total\")\n"+ yamlhx.get("total");
     tf.text += "\n\n city : yamlhx.get(\"ship-to.address.city\")\n"+ yamlhx.get("ship-to.address.city");
+    tf.text += "\n\n second product's description : yamlhx.get(\"product[1].description\")\n"+ yamlhx.get("product[1].description");
 	}
 	public static function main(){
 		new Test();
