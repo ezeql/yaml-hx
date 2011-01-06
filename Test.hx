@@ -35,7 +35,10 @@ product:
       sku: BL4438
       quantity: 1
       description: 'Super Hoop'
-      price: '2392.00'";
+      price: '2392.00'
+tax: '251.42'
+total: '4443.52'
+comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'";
 
 		var yamlhx = YamlHX.read(input);
 		
