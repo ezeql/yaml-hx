@@ -2,15 +2,17 @@ import haxe.xml.Fast;
 class YamlHX extends Fast
 {
 	private static inline var LINE_SEPARATOR = "\n";
+	public var anchors: Hash<Xml>;
 	
 	public function new(input:String)
 	{
-		var x:Xml = Xml.parse('<?xml-stylesheet type="text/xsl" href="xml2yaml.xsl"?>\n<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
+	  anchors = new Hash<Xml>();
+		var x:Xml = Xml.parse('<?xml version="1.0"?>\n<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
 		
 		var line = 0;
 		var lines = input.split(LINE_SEPARATOR);
-		var indents = 0; // running
-		var spaces = 0; // temp
+		var indents = 0;
+		var spaces = 0;
 		var colon = 0;
 		var key = "";
 		var root = x.firstElement();
@@ -88,6 +90,7 @@ class YamlHX extends Fast
 							block = true;
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"&")){ // yaml anchor
 						  new_element.set("yaml&#003A;anchor", value.substr(value.indexOf("&")+1));
+						  anchors.set(value.substr(value.indexOf("&")+1), new_element);
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"*")){ // yaml alias
 						  new_element.set("yaml&#003A;alias", value.substr(value.indexOf("*")+1));
 						}else{
@@ -109,8 +112,28 @@ class YamlHX extends Fast
 			
 		}
 		
-		super(x);
+		super(x.firstElement());
 		
+	}
+	
+	public inline function get( s:String ):String
+	{
+	  var f:Fast = this;
+	  var value:String;
+	  var address = s.split(".");
+	  for(v in address){
+	    if(f.hasNode.resolve(v)){
+	      f = f.node.resolve(v);
+	    }else if(StringTools.startsWith(v,"@") && f.has.resolve(v.substr(1))){ // @attribute
+	      return f.att.resolve(v);
+      }else if(f.has.resolve("yaml&#003A;alias") && anchors.exists(f.att.resolve("yaml&#003A;alias"))){ // alias?
+        var clonee = anchors.get(f.att.resolve("yaml&#003A;alias"));
+        f = new Fast(clonee).node.resolve(v);
+	    }else{
+	      throw "YamlHX.get() error, '"+v+"' not found in '"+f.name+"'";
+	    }
+	  }
+	  return f.innerData;
 	}
 	
 	private static inline function tabsToSpaces( s:String, colon:Int ):String

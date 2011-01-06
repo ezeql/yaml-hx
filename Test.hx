@@ -46,9 +46,15 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 		tf.multiline = true;
 		tf.width = flash.Lib.current.stage.stageWidth;
 		tf.height = flash.Lib.current.stage.stageHeight;
-		tf.text = yamlhx.x.toString();
 		tf.wordWrap = true;
-		flash.Lib.current.stage.addChild(tf);
+    flash.Lib.current.stage.addChild(tf);
+    
+    tf.text = yamlhx.x.toString();
+    
+    tf.text += "\n\n yamlhx.node.tax.name : yamlhx.node.tax.innerData  \n"+ yamlhx.node.tax.name + " : " + yamlhx.node.tax.innerData;
+    tf.text += "\n\n yamlhx.node.resolve(\"bill-to\").node.given.name : yamlhx.node.resolve(\"bill-to\").node.given.innerData  \n"+ yamlhx.node.resolve("bill-to").node.given.name + " : " + yamlhx.node.resolve("bill-to").node.given.innerData;
+    tf.text += "\n\n total : yamlhx.get(\"total\")\n"+ yamlhx.get("total");
+    tf.text += "\n\n city : yamlhx.get(\"ship-to.address.city\")\n"+ yamlhx.get("ship-to.address.city");
 	}
 	public static function main(){
 		new Test();
