@@ -47,7 +47,7 @@ class YamlHX extends Fast
 						throw "YAML Syntax error at line: "+line;
 					}
 				}else{
-				
+				  block = false;
 					key = l.substr(0,colon);
 
 					// set tabbing if it's unset
@@ -57,7 +57,7 @@ class YamlHX extends Fast
 			
 					// set indents
 					indents = 0;
-					while(spaces > 0 && StringTools.startsWith(key,tabbing) && !block){
+					while(spaces > 0 && StringTools.startsWith(key,tabbing)){
 						key = key.substr(tabbing.length);
 						indents++;
 					}
@@ -66,7 +66,6 @@ class YamlHX extends Fast
 					// check for value
 					value = StringTools.trim(l.substr(colon+1));
 					new_element = Xml.createElement(StringTools.trim(key));
-					block = false;
 					if(value != ""){
 						if(StringTools.trim(value) == "|"){ // multiline block
 							block = true;

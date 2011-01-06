@@ -19,7 +19,11 @@ bill-to: &id001
    address:
  	    lines: |
 	       458 Walkman Dr.
-	       Suite #292";
+	       Suite #292
+
+      city: 'Royal Oak'
+      state: MI
+      postal: 48046";
 
 		var yamlhx = YamlHX.read(input);
 		
