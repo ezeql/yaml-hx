@@ -24,7 +24,18 @@ bill-to: &id001
       city: 'Royal Oak'
       state: MI
       postal: 48046
-ship-to: *id001";
+ship-to: *id001
+product: 
+   - 
+      sku: BL394D
+      quantity: 4
+      description: Basketball
+      price: '450.00'
+   - 
+      sku: BL4438
+      quantity: 1
+      description: 'Super Hoop'
+      price: '2392.00'";
 
 		var yamlhx = YamlHX.read(input);
 		

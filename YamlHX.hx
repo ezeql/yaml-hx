@@ -33,6 +33,11 @@ class YamlHX extends Fast
 				// count the spaces
 				spaces = countSpaces(l);
 				
+				// set tabbing if it's unset
+				if(tabbing == "" && spaces > 0){
+					tabbing = StringTools.rpad(tabbing, " ", spaces);
+				}
+				
 				// if block
 				if(colon < 0){
 					if(block){
@@ -43,17 +48,29 @@ class YamlHX extends Fast
 						}
 
 						levels[indents].nodeValue += value; // append new line
+					}else if(StringTools.trim(l) == "-"){ // list items
+					  new_element = Xml.createElement("_"); // <_>
+					  
+					  // set indents
+  					indents = 0;
+  					while(spaces > 0 && StringTools.startsWith(l,tabbing)){
+  						l = l.substr(tabbing.length);
+  						indents++;
+  					}
+  					
+  					if(spaces > 0){
+  						levels[indents-1].addChild(new_element);
+  					}else{
+  						root.addChild(new_element);
+  					}
+
+  					levels[indents] = new_element;
 					}else{
 						throw "YAML Syntax error at line: "+line;
 					}
 				}else{
 				  block = false;
 					key = l.substr(0,colon);
-
-					// set tabbing if it's unset
-					if(tabbing == "" && spaces > 0){
-						tabbing = StringTools.rpad(tabbing, " ", spaces);
-					}
 			
 					// set indents
 					indents = 0;
