@@ -71,6 +71,8 @@ class YamlHX extends Fast
 							block = true;
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"&")){ // yaml anchor
 						  new_element.set("yaml&#003A;anchor", value.substr(value.indexOf("&")+1));
+						}else if(StringTools.startsWith(StringTools.ltrim(value),"*")){ // yaml alias
+						  new_element.set("yaml&#003A;alias", value.substr(value.indexOf("*")+1));
 						}else{
 							new_element.nodeValue = value;
 						}

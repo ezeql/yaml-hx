@@ -23,7 +23,8 @@ bill-to: &id001
 
       city: 'Royal Oak'
       state: MI
-      postal: 48046";
+      postal: 48046
+ship-to: *id001";
 
 		var yamlhx = YamlHX.read(input);
 		
