@@ -1,20 +1,32 @@
+/*
+	This test should grab read the sample invoice yaml doc from http://yaml.org/xml.html
+	and output an accurate xml http://yaml.org/xml/invoice.xml
+
+	then access the yaml variables using the haXe Fast xml wrapper 
+	
+*/
 class Test
 {
 
 	public function new()
 	{
 		var input = 
-"test1: blah
-test2: bloo
-test3:
-	tier2_1: whoo
-	tier2_2: whee
-	tier2_3:
-		tier3_1: enough
-	tier2_4: waddaa
-test4: finished";
-		var hash = YamlHX.read(input);
-		trace(hash);
+"number: 34843
+date: '2001-01-03'
+bill-to: &id001
+   given: 'Chris'
+   family: Dumars
+";
+
+		var yamlhx = YamlHX.read(input);
+		
+		var tf = new flash.text.TextField();
+		tf.multiline = true;
+		tf.width = flash.Lib.current.stage.stageWidth;
+		tf.height = flash.Lib.current.stage.stageHeight;
+		tf.text = yamlhx.x.toString();
+		tf.wordWrap = true;
+		flash.Lib.current.stage.addChild(tf);
 	}
 	public static function main(){
 		new Test();
