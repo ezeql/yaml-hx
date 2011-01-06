@@ -89,10 +89,10 @@ class YamlHX extends Fast
 						if(StringTools.trim(value) == "|"){ // multiline block
 							block = true;
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"&")){ // yaml anchor
-						  new_element.set("yaml&#003A;anchor", value.substr(value.indexOf("&")+1));
+						  new_element.set("yaml-anchor", value.substr(value.indexOf("&")+1)); // should be yaml:anchor
 						  anchors.set(value.substr(value.indexOf("&")+1), new_element);
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"*")){ // yaml alias
-						  new_element.set("yaml&#003A;alias", value.substr(value.indexOf("*")+1));
+						  new_element.set("yaml-alias", value.substr(value.indexOf("*")+1)); // should be yaml:alias
 						}else{
 							new_element.nodeValue = value;
 						}
@@ -126,8 +126,8 @@ class YamlHX extends Fast
 	      f = f.node.resolve(v);
 	    }else if(StringTools.startsWith(v,"@") && f.has.resolve(v.substr(1))){ // @attribute
 	      return f.att.resolve(v);
-      }else if(f.has.resolve("yaml&#003A;alias") && anchors.exists(f.att.resolve("yaml&#003A;alias"))){ // alias?
-        var clonee = anchors.get(f.att.resolve("yaml&#003A;alias"));
+      }else if(f.has.resolve("yaml-alias") && anchors.exists(f.att.resolve("yaml-alias"))){ // alias?
+        var clonee = anchors.get(f.att.resolve("yaml-alias"));
         f = new Fast(clonee).node.resolve(v);
 	    }else if(v.indexOf("[") > 0 && v.indexOf("]") > 0){ // array accessor for lists
 	      var index = Std.parseInt(v.substr(v.indexOf("[")+1,v.indexOf("]")));
