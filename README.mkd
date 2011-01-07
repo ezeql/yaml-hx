@@ -2,7 +2,8 @@
 
 Will read a [yaml](http://yaml.org) doc and return a [haxe.xml.Fast](http://haxe.org/api/haxe/xml/fast) object which you can use to access all the data in it.  
 The purpose is for a nice fast way to read yaml formatted docs in haXe, for configuration files etc, while staying consistent with the [yaml spec](http://yaml.org/spec/1.2/spec.html). yaml-hx does not implement all features in yaml spec yet.   
-yaml-hx will read the sample ["invoice" yaml doc](http://yaml.org/xml.html) and create the expected [xml document](http://yaml.org/xml/invoice.xml) as the source [Xml](http://haxe.org/api/xml) wrapped with [Fast](http://haxe.org/api/haxe/xml/fast).
+yaml-hx will read the sample ["invoice" yaml doc](http://yaml.org/xml/invoice.xml) and create the expected [xml document](http://yaml.org/xml.html) as the source [Xml](http://haxe.org/api/xml) wrapped with [Fast](http://haxe.org/api/haxe/xml/fast).  
+So yaml-hx can also be used as a yaml2xml converter.
 
 Will put more examples in the [Wiki](https://github.com/theRemix/yaml-hx/wiki)
 
@@ -51,7 +52,7 @@ StringTools.htmlEscape( yamlhx.x.toString() )
 
 ### the spell called YamlHX.get() 
 
-using the sample ["invoice" yaml doc](http://yaml.org/xml.html)  
+using the sample ["invoice" yaml doc](http://yaml.org/xml/invoice.xml)  
 
     var invoice = YamlHX.read(invoice_yaml);
     
@@ -95,12 +96,12 @@ _build errors on cpp_
 * get() method allows using array[index] to access lists
 
 
-todo  
+### todo  
 
 * looks like the single quotes from the yaml file should be stripped from the node contents
-* # comments
+* \# comments
 * !!types
 * benchmarks
 * > Newlines folded
-* <<: alias 
+* &gt;&gt;: alias 
 * data merging, overriding
