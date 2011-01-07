@@ -8,6 +8,7 @@ Simple yaml parser, probably will include all the bells and whistles
 * flash9
 * flash10
 * js
+* neko
 
 ## Features
 

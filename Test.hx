@@ -67,6 +67,8 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 
 #elseif js
     js.Lib.document.write(out);
+#elseif neko
+    neko.Lib.print(out);
 #end  
     
 	}

@@ -27,3 +27,8 @@
 --next
 -main Test
 -js deploy/js/yaml-hx-test.js
+
+#neko test
+--next
+-main Test
+-neko deploy/yaml-hx-test.n
