@@ -32,3 +32,8 @@
 --next
 -main Test
 -neko deploy/yaml-hx-test.n
+
+#php test
+--next
+-main Test
+-php deploy/php
