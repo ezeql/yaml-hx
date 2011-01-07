@@ -1,10 +1,12 @@
 # yaml-hx
 
-Will read a yaml file and return a haxe.xml.Fast object which you can use to access all the data in it.  
+Will read a [yaml](http://yaml.org) doc and return a [haxe.xml.Fast](http://haxe.org/api/haxe/xml/fast) object which you can use to access all the data in it.  
 The purpose is for a nice fast way to read yaml formatted docs in haXe, for configuration files etc, while staying consistent with the [yaml spec](http://yaml.org/spec/1.2/spec.html). yaml-hx does not implement all features in yaml spec yet.   
-yaml-hx will read the sample ["invoice" yaml doc](http://yaml.org/xml.html) and output the expected (xml document)[http://yaml.org/xml/invoice.xml]
+yaml-hx will read the sample ["invoice" yaml doc](http://yaml.org/xml.html) and create the expected [xml document](http://yaml.org/xml/invoice.xml) as the source [Xml](http://haxe.org/api/xml) wrapped with [Fast](http://haxe.org/api/haxe/xml/fast).
 
-See more examples in the [Wiki](https://github.com/theRemix/yaml-hx/wiki)
+Will put more examples in the [Wiki](https://github.com/theRemix/yaml-hx/wiki)
+
+[Using Fast Xml wrapper](http://haxe.org/doc/advanced/xml_fast)
 
 ## Usage
 
@@ -34,7 +36,7 @@ with yaml-hx
     var username = yamlhx.get("development.username"); // dots
 
 this is the xml that's created by YamlHX  
-StringTools.htmlEscape(yamlhx.x.toString())
+StringTools.htmlEscape( yamlhx.x.toString() )
 
     <YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002">
       <development>
@@ -45,6 +47,30 @@ StringTools.htmlEscape(yamlhx.x.toString())
         <database>development</database>
       </development>
     </YamlHX>
+
+
+### the spell called YamlHX.get() 
+
+using the sample ["invoice" yaml doc](http://yaml.org/xml.html)  
+
+    var invoice = YamlHX.read(invoice_yaml);
+    
+    trace( invoice.get("total") )
+    // '4443.52'
+
+yaml-hx will resolve the ship-to alias to the bill-to anchor
+
+    trace( invoice.get("bill-to.address.city") )
+    // 'Royal Oak'
+    
+    trace( invoice.get("ship-to.address.city") )
+    // 'Royal Oak'
+
+yaml-hx will access list items using array[index] notation
+
+    trace( invoice.get("product[1].description") )
+    // 'Super Hoop'
+
 
 
 ## Implemented on
@@ -60,7 +86,6 @@ _build errors on cpp_
 
 ## Features
 
-
 * allows empty keys -> empty xml node
 * haXe xml doesn't like attributes with colon
 ** yaml:anchor attribute is "yaml-anchor"
@@ -70,6 +95,7 @@ _build errors on cpp_
 
 
 todo  
+
 * looks like the single quotes from the yaml file should be stripped from the node contents
 * # comments
 * !!types
