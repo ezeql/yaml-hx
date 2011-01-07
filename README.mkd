@@ -1,6 +1,51 @@
 # yaml-hx
 
-Simple yaml parser, probably will include all the bells and whistles
+Will read a yaml file and return a haxe.xml.Fast object which you can use to access all the data in it.  
+The purpose is for a nice fast way to read yaml formatted docs in haXe, for configuration files etc, while staying consistent with the [yaml spec](http://yaml.org/spec/1.2/spec.html). yaml-hx does not implement all features in yaml spec yet.   
+yaml-hx will read the sample ["invoice" yaml doc](http://yaml.org/xml.html) and output the expected (xml document)[http://yaml.org/xml/invoice.xml]
+
+See more examples in the [Wiki](https://github.com/theRemix/yaml-hx/wiki)
+
+## Usage
+
+Consider this yaml doc
+
+var yaml_string:String
+
+    development:
+      adapter: mysql
+      hostname: localhost
+      username: root
+      password: secret
+      database: development
+
+For comparison, in ruby
+
+    yaml = YAML.load(yaml_string)
+    >> hostname = yaml["development"]["hostname"]
+    => "localhost"
+    >> username = yaml["development"]["username"]
+    => "root"
+    
+with yaml-hx
+
+    var yamlhx = YamlHX.read(yaml_string);
+    var hostname = yamlhx.node.development.node.hostname.innerData; // Fast
+    var username = yamlhx.get("development.username"); // dots
+
+this is the xml that's created by YamlHX  
+StringTools.htmlEscape(yamlhx.x.toString())
+
+    <YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002">
+      <development>
+        <adapter>mysql</adapter>
+        <hostname>localhost</hostname>
+        <username>root</username>
+        <password>secret</password>
+        <database>development</database>
+      </development>
+    </YamlHX>
+
 
 ## Implemented on
 
@@ -15,12 +60,20 @@ _build errors on cpp_
 
 ## Features
 
+
 * allows empty keys -> empty xml node
-* allows messy (i think this way executes faster atm)
 * haXe xml doesn't like attributes with colon
 ** yaml:anchor attribute is "yaml-anchor"
 ** yaml:alias attribute is "yaml-alias"
+* get() method that uses faster dot notation
+* get() method allows using array[index] to access lists
 
 
 todo  
 * looks like the single quotes from the yaml file should be stripped from the node contents
+* # comments
+* !!types
+* benchmarks
+* > Newlines folded
+* <<: alias 
+* data merging, overriding
