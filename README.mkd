@@ -4,10 +4,10 @@ Simple yaml parser, probably will include all the bells and whistles
 
 ## Implemented on
 
+* flash8
 * flash9
 * flash10
-
-_Doesn't work on flash8_
+* js
 
 ## Features
 

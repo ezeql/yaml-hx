@@ -15,10 +15,15 @@
 --no-inline
 -swf deploy/debug10.swf
 
-# swf8 test, not implemented, fork to contribute https://github.com/theRemix/yaml-hx
-#--next
-#-main Test
-#-swf-version 8
-#-swf-header 750:600:30:FFFFFF
-#--no-inline
-#-swf deploy/debug8.swf
+# swf8 test
+--next
+-main Test
+-swf-version 8
+-swf-header 750:600:30:FFFFFF
+--no-inline
+-swf deploy/debug8.swf
+
+#js test
+--next
+-main Test
+-js deploy/js/yaml-hx-test.js

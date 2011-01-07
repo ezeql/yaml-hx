@@ -40,8 +40,15 @@ tax: '251.42'
 total: '4443.52'
 comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'";
 
-		var yamlhx = YamlHX.read(input);
-		
+
+    var yamlhx = YamlHX.read(input);
+    var out = "<h3>XML Output</h3><br /><pre>"+StringTools.htmlEscape(yamlhx.x.toString())+"</pre><br />"
+    + "\n\n <p><strong>yamlhx.node.tax.name : yamlhx.node.tax.innerData</strong></p><p>\n"+ yamlhx.node.tax.name + " : " + yamlhx.node.tax.innerData + "</p>"
+    + "\n\n <p><strong>yamlhx.node.resolve(\"bill-to\").node.given.name : yamlhx.node.resolve(\"bill-to\").node.given.innerData</strong></p><p>  \n"+ yamlhx.node.resolve("bill-to").node.given.name + " : " + yamlhx.node.resolve("bill-to").node.given.innerData + "</p>"
+    + "\n\n <p><strong>total : yamlhx.get(\"total\")</strong></p><p>\n"+ yamlhx.get("total") + "</p>"
+    + "\n\n <p><strong>city : yamlhx.get(\"ship-to.address.city\")</strong></p><p>\n"+ yamlhx.get("ship-to.address.city") + "</p>"
+    + "\n\n <p><strong>second product's description : yamlhx.get(\"product[1].description\")</strong></p><p>\n"+ yamlhx.get("product[1].description") + "</p>";
+    
 #if flash9
 		var tf = new flash.text.TextField();
 		tf.multiline = true;
@@ -49,19 +56,19 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 		tf.height = flash.Lib.current.stage.stageHeight;
 		tf.wordWrap = true;
     flash.Lib.current.stage.addChild(tf);
+    
+    tf.htmlText = out;
 #elseif flash8
-		var tf = flash.Lib.current.createTextField("tf",1,0,0,flash.Lib.current._width,flash.Lib.current._height);
+		var tf = flash.Lib.current.createTextField("tf",1,0,0,750,600);
 		tf.multiline = true;
 		tf.wordWrap = true;
+		tf.html = true;
+		tf.htmlText = out;
+
+#elseif js
+    js.Lib.document.write(out);
 #end  
     
-    tf.text = yamlhx.x.toString();
-    
-    tf.text += "\n\n yamlhx.node.tax.name : yamlhx.node.tax.innerData  \n"+ yamlhx.node.tax.name + " : " + yamlhx.node.tax.innerData;
-    tf.text += "\n\n yamlhx.node.resolve(\"bill-to\").node.given.name : yamlhx.node.resolve(\"bill-to\").node.given.innerData  \n"+ yamlhx.node.resolve("bill-to").node.given.name + " : " + yamlhx.node.resolve("bill-to").node.given.innerData;
-    tf.text += "\n\n total : yamlhx.get(\"total\")\n"+ yamlhx.get("total");
-    tf.text += "\n\n city : yamlhx.get(\"ship-to.address.city\")\n"+ yamlhx.get("ship-to.address.city");
-    tf.text += "\n\n second product's description : yamlhx.get(\"product[1].description\")\n"+ yamlhx.get("product[1].description");
 	}
 	public static function main(){
 		new Test();

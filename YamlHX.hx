@@ -7,7 +7,7 @@ class YamlHX extends Fast
 	public function new(input:String)
 	{
 	  anchors = new Hash<Xml>();
-		var x:Xml = Xml.parse('<?xml version="1.0"?>\n<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
+		var x:Xml = Xml.parse('<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
 		
 		var line = 0;
 		var lines = input.split(LINE_SEPARATOR);
@@ -48,8 +48,17 @@ class YamlHX extends Fast
 						while(indents > 0 && StringTools.startsWith(value,tabbing)){
 							value = value.substr(spaces);
 						}
-
-						levels[indents].nodeValue += value; // append new line
+						
+						// append new line
+            if(levels[indents].firstChild() == null){
+              levels[indents].addChild(Xml.createPCData(value));
+            }else{
+#if (flash9 || flash10)
+              levels[indents].nodeValue += value;
+#else
+              levels[indents].firstChild().nodeValue += value;
+#end
+            }
 					}else if(StringTools.trim(l) == "-"){ // list items
 					  new_element = Xml.createElement("_"); // <_>
 					  
@@ -89,12 +98,12 @@ class YamlHX extends Fast
 						if(StringTools.trim(value) == "|"){ // multiline block
 							block = true;
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"&")){ // yaml anchor
-						  new_element.set("yaml-anchor", value.substr(value.indexOf("&")+1)); // should be yaml:anchor
+              new_element.set("yaml-anchor", value.substr(value.indexOf("&")+1)); // should be yaml:anchor
 						  anchors.set(value.substr(value.indexOf("&")+1), new_element);
 						}else if(StringTools.startsWith(StringTools.ltrim(value),"*")){ // yaml alias
-						  new_element.set("yaml-alias", value.substr(value.indexOf("*")+1)); // should be yaml:alias
+              new_element.set("yaml-alias", value.substr(value.indexOf("*")+1)); // should be yaml:alias
 						}else{
-							new_element.nodeValue = value;
+						  new_element.addChild(Xml.createPCData(value));
 						}
 					}
 					
@@ -119,13 +128,13 @@ class YamlHX extends Fast
 	public inline function get( s:String ):String
 	{
 	  var f:Fast = this;
-	  var value:String;
+	  var value = "";
 	  var address = s.split(".");
 	  for(v in address){
 	    if(f.hasNode.resolve(v)){
 	      f = f.node.resolve(v);
 	    }else if(StringTools.startsWith(v,"@") && f.has.resolve(v.substr(1))){ // @attribute
-	      return f.att.resolve(v);
+	      value = f.att.resolve(v);
       }else if(f.has.resolve("yaml-alias") && anchors.exists(f.att.resolve("yaml-alias"))){ // alias?
         var clonee = anchors.get(f.att.resolve("yaml-alias"));
         f = new Fast(clonee).node.resolve(v);
@@ -146,7 +155,11 @@ class YamlHX extends Fast
 	      throw "YamlHX.get() error, '"+v+"' not found in '"+f.name+"'";
 	    }
 	  }
-	  return f.innerData;
+	  if(value != ""){
+	    return value;
+	  }else{
+	    return f.innerData;
+    }
 	}
 	
 	private static inline function tabsToSpaces( s:String, colon:Int ):String
@@ -170,11 +183,6 @@ class YamlHX extends Fast
 
 	public static function read(input:String):YamlHX
 	{
-#if flash8
-  #error
-  // Fork this project and fix it if you want it
-  // https://github.com/theRemix/yaml-hx
-#end
 		var yamls = new YamlHX(input);
 		return yamls;
 	}
