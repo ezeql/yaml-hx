@@ -2,11 +2,21 @@
 
 Simple yaml parser, probably will include all the bells and whistles
 
+## Implemented on
 
+* flash9
+* flash10
+
+_Doesn't work on flash8_
+
+## Features
 
 * allows empty keys -> empty xml node
 * allows messy (i think this way executes faster atm)
-* haXe xml doesn't like attributes with colon, so for yaml:anchor i use unicode "yaml&#003a;anchor"
+* haXe xml doesn't like attributes with colon
+** yaml:anchor attribute is "yaml-anchor"
+** yaml:alias attribute is "yaml-alias"
+
 
 todo  
 * looks like the single quotes from the yaml file should be stripped from the node contents

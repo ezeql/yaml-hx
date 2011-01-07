@@ -170,6 +170,11 @@ class YamlHX extends Fast
 
 	public static function read(input:String):YamlHX
 	{
+#if flash8
+  #error
+  // Fork this project and fix it if you want it
+  // https://github.com/theRemix/yaml-hx
+#end
 		var yamls = new YamlHX(input);
 		return yamls;
 	}

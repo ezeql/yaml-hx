@@ -42,12 +42,18 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 
 		var yamlhx = YamlHX.read(input);
 		
+#if flash9
 		var tf = new flash.text.TextField();
 		tf.multiline = true;
 		tf.width = flash.Lib.current.stage.stageWidth;
 		tf.height = flash.Lib.current.stage.stageHeight;
 		tf.wordWrap = true;
     flash.Lib.current.stage.addChild(tf);
+#elseif flash8
+		var tf = flash.Lib.current.createTextField("tf",1,0,0,flash.Lib.current._width,flash.Lib.current._height);
+		tf.multiline = true;
+		tf.wordWrap = true;
+#end  
     
     tf.text = yamlhx.x.toString();
     
