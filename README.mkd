@@ -10,6 +10,9 @@ Simple yaml parser, probably will include all the bells and whistles
 * js
 * neko
 
+_build errors on cpp_  
+
+
 ## Features
 
 * allows empty keys -> empty xml node
