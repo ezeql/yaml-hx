@@ -8,6 +8,7 @@ class YamlHX extends Fast
 	{
 	  anchors = new Hash<Xml>();
 		var x:Xml = Xml.parse('<YamlHX xmlns="tag:yaml.org,2002" xmlns:yaml="tag:yaml.org,2002"></YamlHX>');
+		x.addChild(Xml.createProlog('xml version="1.0" encoding="utf-8"'));
 		
 		var line = 0;
 		var lines = input.split(LINE_SEPARATOR);
