@@ -66,7 +66,7 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 		tf.htmlText = out;
 
 #elseif js
-    js.Lib.document.write(out);
+      js.Browser.document.write(out);
 #elseif neko
     neko.Lib.print(out);
 #elseif php
