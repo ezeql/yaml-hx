@@ -72,7 +72,7 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
 #elseif php
     php.Lib.print(out);
 #elseif cpp
-    cpp.Lib.print(yamlhx.x.firstElement().toString());
+    cpp.Lib.print(out);
 
 #end  
     
