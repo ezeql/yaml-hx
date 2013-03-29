@@ -5,7 +5,7 @@
 	then access the yaml variables using the haXe Fast xml wrapper 
 	
 */
-class Test
+class MainTest
 {
 
 	public function new()
@@ -71,10 +71,13 @@ comments: 'Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338'"
     neko.Lib.print(out);
 #elseif php
     php.Lib.print(out);
+#elseif cpp
+    cpp.Lib.print(yamlhx.x.firstElement().toString());
+
 #end  
     
 	}
 	public static function main(){
-		new Test();
+		new MainTest();
 	}
 }

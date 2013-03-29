@@ -1,5 +1,5 @@
 # swf9 test
--main Test
+-main MainTest
 --flash-strict
 -swf-version 9
 -swf-header 750:600:30:FFFFFF
@@ -8,7 +8,7 @@
 
 #swf10 test
 --next
--main Test
+-main MainTest
 --flash-strict
 -swf-version 10
 -swf-header 750:600:30:FFFFFF
@@ -17,7 +17,7 @@
 
 # swf8 test
 --next
--main Test
+-main MainTest
 -swf-version 8
 -swf-header 750:600:30:FFFFFF
 --no-inline
@@ -25,22 +25,21 @@
 
 #js test
 --next
--main Test
+-main MainTest
 -js deploy/js/yaml-hx-test.js
 
 #neko test
 --next
--main Test
+-main MainTest
 -neko deploy/yaml-hx-test.n
 
 #php test
 --next
--main Test
+-main MainTest
 -php deploy/php
 
 #cpp test
-# build errors, fork me if you want to help https://github.com/theRemix/yaml-hx
-#--next
-#-main Test
-#-cpp deploy/cpp
-#-D HXCPP_M64
+--next
+-main MainTest
+-cpp deploy/cpp
+-D HXCPP_M64
